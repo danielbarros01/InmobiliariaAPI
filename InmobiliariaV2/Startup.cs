@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
@@ -29,6 +30,8 @@ namespace InmobiliariaV2
                     Configuration["ConnectionStrings:MySql"],
                     ServerVersion.AutoDetect(Configuration["ConnectionStrings:MySql"])
                 ));
+
+
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -78,7 +81,7 @@ namespace InmobiliariaV2
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection(); //redirige el tráfico HTTP a HTTPS
+            //app.UseHttpsRedirection(); //redirige el tráfico HTTP a HTTPS
 
             /* CORS */
             app.UseCors(x => x

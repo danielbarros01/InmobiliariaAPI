@@ -1,4 +1,5 @@
 ﻿using InmobiliariaV2.Models;
+using InmobiliariaV2.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
@@ -38,14 +39,7 @@ namespace InmobiliariaV2.Controllers
                 return BadRequest("Los datos no son validos, verifica el email y la contraseña");
             }
 
-            string hashed =
-                Convert.ToBase64String
-                (KeyDerivation.Pbkdf2(
-                    password: login.Password,
-                    salt: System.Text.Encoding.ASCII.GetBytes(configuration["Salt"]),
-                    prf: KeyDerivationPrf.HMACSHA1,
-                    iterationCount: 10000,
-                    numBytesRequested: 256 / 8));
+            string hashed = GeneratePasswordHash.GenerateHash(login.Password, configuration["Salt"]);
 
             if (propietario.Password != hashed)
             {
@@ -117,6 +111,33 @@ namespace InmobiliariaV2.Controllers
                 .FirstOrDefaultAsync();
 
             return Ok(propietarioActualizado);
+        }
+
+        [HttpPut("perfil/password")]
+        [Authorize]
+        public async Task<ActionResult> Password(PasswordsPropietario passwords)
+        {
+            var propietario = await contexto.Propietarios
+                .Where(p => p.Email == User.Identity.Name)
+                .FirstOrDefaultAsync();
+
+            if (propietario == null)
+            {
+                return BadRequest("No se encontro al propietario");
+            }
+
+            if (propietario.Password != GeneratePasswordHash.GenerateHash(passwords.contraseñaActual, configuration["Salt"]))
+            {
+                return BadRequest("La contraseña actual es incorrecta");
+            }
+
+            string hashedNuevaContraseña = GeneratePasswordHash.GenerateHash(passwords.contraseñaNueva, configuration["Salt"]);
+
+            propietario.Password = hashedNuevaContraseña;
+
+            await contexto.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
