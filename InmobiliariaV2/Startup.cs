@@ -90,6 +90,7 @@ namespace InmobiliariaV2
                 .AllowAnyHeader());
             /*  */
 
+            app.UseStaticFiles();
             app.UseRouting(); //establece el enrutamiento de la solicitud
 
             app.UseAuthentication();

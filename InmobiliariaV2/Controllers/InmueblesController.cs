@@ -44,5 +44,23 @@ namespace InmobiliariaV2.Controllers
 
             return Ok(inmueble);
         }
+
+        [HttpPatch("{id:int}")]
+        public async Task<ActionResult> UpdateStatus(int id, bool disponible)
+        {
+            var inmueble = await contexto.Inmuebles
+                .SingleOrDefaultAsync(i => i.Id == id);
+
+            if (inmueble == null)
+            {
+                return NotFound("El inmueble no existe");
+            }
+
+            inmueble.Disponible = disponible;
+
+            await contexto.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

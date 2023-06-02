@@ -33,5 +33,7 @@ namespace InmobiliariaV2.Models
         [Column("tipo_inmueble_Id")]
         public int TipoInmuebleId { get; set; }
         public TipoInmueble TipoInmueble { get; set; }
+
+        public string ImagenRuta { get; set; }
     }
 }
