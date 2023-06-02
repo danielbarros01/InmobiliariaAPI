@@ -7,7 +7,7 @@ namespace InmobiliariaV2.Controllers
 {
     [ApiController]
     [Route("api/pagos")]
-    //[Authorize]
+    [Authorize]
     public class PagosController : ControllerBase
     {
         private readonly DataContext context;

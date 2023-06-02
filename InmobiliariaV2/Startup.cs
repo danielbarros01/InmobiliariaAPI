@@ -19,7 +19,7 @@ namespace InmobiliariaV2
         {
             services
                 .AddControllers()
-                .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+                .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); ////Esto indica que se debe ignorar cualquier referencia circular o relación cíclica durante la serialización JSON
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();

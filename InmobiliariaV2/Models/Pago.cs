@@ -12,5 +12,7 @@ namespace InmobiliariaV2.Models
 
         [Column("contrato_Id")]
         public int ContratoId { get; set; }
+
+        public Contrato contrato { get; set; }
     }
 }
