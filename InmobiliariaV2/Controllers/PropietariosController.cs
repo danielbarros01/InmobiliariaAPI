@@ -12,6 +12,7 @@ namespace InmobiliariaV2.Controllers
 {
     [ApiController]
     [Route("api/propietarios")]
+    [Authorize]
     public class PropietariosController : ControllerBase
     {
         private readonly DataContext contexto;
@@ -23,13 +24,8 @@ namespace InmobiliariaV2.Controllers
             this.configuration = configuration;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<List<Propietario>>> Get()
-        {
-            return await contexto.Propietarios.ToListAsync();
-        }
-
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult> Login(LoginView login)
         {
             Propietario propietario = await contexto.Propietarios.FirstOrDefaultAsync(p => p.Email == login.Email);
@@ -69,7 +65,6 @@ namespace InmobiliariaV2.Controllers
         }
 
         [HttpGet("perfil")]
-        [Authorize]
         public async Task<ActionResult> Perfil()
         {
             var propietario = await contexto.Propietarios
@@ -86,7 +81,6 @@ namespace InmobiliariaV2.Controllers
         }
 
         [HttpPut("perfil")]
-        [Authorize]
         public async Task<ActionResult> Perfil(Propietario p)
         {
             var propietario = await contexto.Propietarios
@@ -114,7 +108,6 @@ namespace InmobiliariaV2.Controllers
         }
 
         [HttpPut("perfil/password")]
-        [Authorize]
         public async Task<ActionResult> Password(PasswordsPropietario passwords)
         {
             var propietario = await contexto.Propietarios

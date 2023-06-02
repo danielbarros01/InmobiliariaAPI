@@ -29,22 +29,6 @@ namespace InmobiliariaV2.Controllers
                 .ToListAsync();
         }
 
-        //No lo utilizo
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<Inmueble>> GetInmueble(int id)
-        {
-            var inmueble = await contexto.Inmuebles
-                .Include(i => i.TipoInmueble)
-                .FirstOrDefaultAsync(i => i.Id == id);
-
-            if(inmueble == null)
-            {
-                return BadRequest("El inmueble no existe");
-            }
-
-            return Ok(inmueble);
-        }
-
         [HttpPatch("{id:int}")]
         public async Task<ActionResult> UpdateStatus(int id, bool disponible)
         {

@@ -12,6 +12,5 @@ namespace InmobiliariaV2
         public DbSet<Inmueble> Inmuebles { get; set; }
         public DbSet<Contrato> Contratos { get; set; }
         public DbSet<Pago> Pagos { get; set; }
-        public DbSet<Inquilino> Inquilinos { get; set; }
     }
 }
